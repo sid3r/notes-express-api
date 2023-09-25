@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
-import taskRoutes from './routes/tasks';
+//import taskRoutes from './routes/tasks';
+import noteRoutes from './routes/notes';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -8,7 +9,10 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 // taks routes
-app.use('/tasks', taskRoutes);
+//app.use('/tasks', taskRoutes);
+
+// notes routes
+app.use('notes', notesRoutes);
 
 // home route
 app.get('/', (req: Request, res: Response) => {

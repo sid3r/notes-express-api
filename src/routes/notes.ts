@@ -40,11 +40,11 @@ router.put('/:id', (req: Request, res: Response) => {
   if (!note) {
     res.status(404).send('Note not found');
   } else {
-    task.content = req.body.content || task.content;
-    task.color  req.body.color || task.color;
-    task.isArchived = req.body.isArchived || task.isArchived;
+    note.content = req.body.content || note.content;
+    note.color = req.body.color || note.color;
+    note.isArchived = req.body.isArchived || note.isArchived;
 
-    res.json(task);
+    res.json(note);
   }
 });
 

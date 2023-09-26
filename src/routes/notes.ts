@@ -47,7 +47,13 @@ router.get('/:id', (req: Request, res: Response) => {
 });
 
 // update
-router.put('/:id', (req: Request, res: Response) => {
+router.put('/:id', noteValidationRules, (req: Request, res: Response) => {
+
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   const note = notes.find((t) => t.id === parseInt(req.params.id));
 
   if (!note) {

@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 //import taskRoutes from './routes/tasks';
 import notesRoutes from './routes/notes';
 
@@ -17,6 +17,12 @@ app.use('/notes', notesRoutes);
 // home route
 app.get('/', (req: Request, res: Response) => {
   res.send("Hello from server");
+});
+
+// error handling middleware
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong');
 });
 
 app.listen(port, () => {

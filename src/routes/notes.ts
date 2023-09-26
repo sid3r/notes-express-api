@@ -1,8 +1,15 @@
 import { Router, Request, Response } from 'express';
+import { body, validationResult } from 'express-validator';
 import { Note } from '../models/note';
 
 const router = Router();
 let notes: Note[] = [];
+
+// validation rules
+const noteValidationRules = [
+  body('content').notEmpty().withMessage('Content is required'),
+  body('color').notEmpty().withMessage('Color is required'),
+];
 
 // get all
 router.get('/', (req: Request, res: Response) => {
@@ -10,7 +17,13 @@ router.get('/', (req: Request, res: Response) => {
 });
 
 // create
-router.post('/', (req: Request, res: Response) => {
+router.post('/', noteValidationRules, (req: Request, res: Response) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  
   const note: Note = {
     id: notes.length + 1,
     content: req.body.content,
